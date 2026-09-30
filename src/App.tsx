@@ -178,9 +178,8 @@ function App() {
             enters from the left edge. */}
         <div className="bevel-out overflow-hidden bg-caption px-1 py-0.5">
           <div className="marquee-track font-digits text-[11px] font-bold text-link">
-            ★ أهلاً وسهلاً ★ الأداة الأمثل لتنزيل صفحات الكتب من المكتبة
-            الشاملة ★ يُفضَّل عرضها بدقة 800×600 ★ Best viewed with any browser
-            ★
+            ★ أهلاً وسهلاً ★ الأداة الأمثل لتنزيل صفحات الكتب من المكتبة الشاملة
+            ★ يُفضَّل عرضها بدقة 800×600 ★ Best viewed with any browser ★
           </div>
         </div>
 
@@ -234,7 +233,10 @@ function App() {
                 <div className="flex flex-col justify-end">
                   {bookTitle ? (
                     <div className="bevel-in bg-white px-2 py-1.5">
-                      <div className="truncate text-sm font-bold" title={bookTitle}>
+                      <div
+                        className="truncate text-sm font-bold"
+                        title={bookTitle}
+                      >
                         {bookTitle}
                       </div>
                     </div>
@@ -284,7 +286,9 @@ function App() {
                     >
                       {item.label}
                       {!item.ready && (
-                        <span className="ms-1 text-[10px] opacity-70">قريبًا</span>
+                        <span className="ms-1 text-[10px] opacity-70">
+                          قريبًا
+                        </span>
                       )}
                     </button>
                   ))}
@@ -333,7 +337,10 @@ function App() {
                   <span className="font-digits tabular-nums">{percent}%</span>
                 </div>
                 <div className="bevel-in h-6 w-full bg-chrome p-[2px]">
-                  <div className="relative h-full" style={{ width: `${percent}%` }}>
+                  <div
+                    className="relative h-full"
+                    style={{ width: `${percent}%` }}
+                  >
                     <div className="progress-fill absolute inset-0" />
                     <div className="progress-blocks absolute inset-0" />
                   </div>
@@ -375,12 +382,12 @@ function App() {
         </div>
 
         <p className="text-center font-digits text-[10px] text-white/60">
-          <span className="text-led">●</span> best viewed at 800×600
+          <span className="text-led">●</span>{" "}
+          <a href="https://joynal.bintofajjal.com/">Joynal Bin Tofajjal</a>
         </p>
       </main>
     </div>
   );
 }
-
 
 export default App;

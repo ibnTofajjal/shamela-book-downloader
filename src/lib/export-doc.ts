@@ -6,6 +6,7 @@
  * Arabic survive the round trip.
  */
 
+import { escapeHtml, stripSiteChrome } from './nass'
 import type { BookPage } from './shamela'
 
 const BOM = '\ufeff'
@@ -38,30 +39,6 @@ const DOC_STYLES = `
   hr { border: 0; border-top: 1px dotted #ccc; margin: 14pt 0; }
   a { color: inherit; text-decoration: none; }
 `
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-}
-
-/**
- * Drop Shamela's own page chrome. The served `.nass` markup interleaves per
- * paragraph anchors and "copy" buttons that mean nothing in a Word document.
- */
-function stripSiteChrome(html: string): string {
-  const doc = new DOMParser().parseFromString(`<div>${html}</div>`, 'text/html')
-  const root = doc.body.firstElementChild
-  if (!root) return html
-
-  root
-    .querySelectorAll('a.btn_tag, .anchor, script, style, .fa')
-    .forEach((node) => node.remove())
-
-  return root.innerHTML
-}
 
 export function buildDocHtml(title: string, pages: BookPage[]): string {
   const body = pages

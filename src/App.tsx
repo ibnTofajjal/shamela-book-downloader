@@ -2,9 +2,13 @@ import { useRef, useState } from "react";
 import { collectPages } from "@/lib/export-book";
 import type { ExportProgress } from "@/lib/export-book";
 import { downloadDoc } from "@/lib/export-doc";
+import { printPdf } from "@/lib/export-pdf";
 import { countPages, fetchBookMeta } from "@/lib/shamela";
 
-const FORMATS = [{ id: "doc", label: "Word", ready: true }] as const;
+const FORMATS = [
+  { id: "doc", label: "Word", ready: true },
+  { id: "pdf", label: "PDF", ready: true },
+] as const;
 
 type Status = "idle" | "detecting" | "running" | "done" | "error";
 
@@ -142,7 +146,14 @@ function App() {
         return;
       }
 
-      downloadDoc(meta.title, result.pages);
+      if (format === "pdf") {
+        // Opens the print dialog; the user picks "Save as PDF". print() blocks
+        // until that dialog closes, so any message set after it here is only
+        // painted once the dialog is already gone -- hence the on-screen hint.
+        await printPdf(meta.title, result.pages);
+      } else {
+        downloadDoc(meta.title, result.pages);
+      }
 
       const notes: string[] = [`تم تصدير ${result.pages.length} صفحة`];
       if (result.failedPageIds.length > 0) {
@@ -238,8 +249,13 @@ function App() {
                         title={bookTitle}
                       >
                         {bookTitle}
-                      </div>
-                    </div>
+                </div>
+                {format === "pdf" && (
+                  <p className="text-[10px] text-[#303030]">
+                    سيفتح نافذة الطباعة — اختر «حفظ كـ PDF» لحفظ الملف.
+                  </p>
+                )}
+              </div>
                   ) : (
                     <div className="bevel-in flex items-center gap-1.5 bg-white px-2 py-1.5">
                       <span className="font-digits text-[10px] text-[#808080]">

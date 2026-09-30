@@ -1,33 +1,114 @@
 @import 'tailwindcss';
 
 /*
- * Neubrutalist tokens. Tailwind v4 is CSS-first, so the palette and the hard
- * offset shadows live here rather than in a config file.
+ * Retro-web tokens. Tailwind v4 is CSS-first, so the palette lives here rather
+ * than in a config file.
  *
- * The shadows are offset toward the *end* (left in RTL) and down, mirroring how
- * a light source would fall for right-to-left reading. Each state moves the
- * element toward its own shadow, which is what sells the "pressed" feel.
+ * The look is 1998: hairline borders, zero border-radius, hard 2px "bevels"
+ * built from stacked inset shadows, and Web-2.0 gradients on top.
+ *
+ * Colour literals are repeated inside the @utility blocks on purpose -- a
+ * custom utility's body is not scanned for var() references, so a theme var
+ * there could get tree-shaken and silently resolve to nothing.
  */
 @theme {
-  --color-ink: #0a0a0a;
-  --color-paper: #fff4d6;
-  --color-sun: #ffd93d;
-  --color-sky: #4d96ff;
-  --color-coral: #ff6b6b;
-  --color-mint: #6bcb77;
-  --color-blush: #ff7bac;
+  --color-desktop: #2b2b63;
+  --color-chrome: #c0c0c0;
+  --color-face: #d4d0c8;
+  --color-title-a: #000080;
+  --color-title-b: #1084d0;
+  --color-link: #0000ee;
+  --color-led: #00a800;
+  --color-caption: #f0e9d8;
 
-  --shadow-brut-sm: -3px 3px 0 0 #0a0a0a;
-  --shadow-brut: -5px 5px 0 0 #0a0a0a;
-  --shadow-brut-lg: -8px 8px 0 0 #0a0a0a;
-
-  --font-display:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Geeza Pro', 'Noto Kufi Arabic',
-    Tahoma, sans-serif;
+  --font-retro:
+    Tahoma, Verdana, 'MS Sans Serif', Geneva, 'Traditional Arabic', 'Geeza Pro',
+    sans-serif;
+  --font-digits: 'Courier New', Courier, monospace;
 }
 
-/* The dot grid that sits behind everything. */
-.brut-grid {
-  background-image: radial-gradient(#0a0a0a 2px, transparent 2px);
-  background-size: 22px 22px;
+/* Raised 2px bevel: light top-left, dark bottom-right. */
+@utility bevel-out {
+  border: 1px solid #404040;
+  box-shadow:
+    inset 1px 1px 0 #ffffff,
+    inset -1px -1px 0 #808080,
+    inset 2px 2px 0 #dfdfdf,
+    inset -2px -2px 0 #808080;
+}
+
+/* Sunken 2px bevel: dark top-left, light bottom-right. */
+@utility bevel-in {
+  border: 1px solid #808080;
+  box-shadow:
+    inset 1px 1px 0 #404040,
+    inset -1px -1px 0 #ffffff,
+    inset 2px 2px 0 #808080,
+    inset -2px -2px 0 #dfdfdf;
+}
+
+/* 1px groove, for thin bars that need to read as recessed. */
+@utility bevel-groove {
+  box-shadow:
+    inset 1px 1px 0 #808080,
+    inset -1px -1px 0 #ffffff;
+}
+
+/* The faux title bar. */
+@utility titlebar {
+  background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
+}
+
+/* Win98 segmented progress fill. */
+@utility progress-fill {
+  background: linear-gradient(180deg, #4a86ff 0%, #0a2fd0 100%);
+}
+
+@utility progress-blocks {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0 11px,
+    #c0c0c0 11px 13px
+  );
+}
+
+/* Chunky extruded lettering. */
+@utility text-extrude {
+  text-shadow:
+    -1px -1px 0 #ffffff,
+    1px 1px 0 #5a5a5a,
+    2px 2px 0 #8f8f8f;
+}
+
+/* Tiled "desktop" with a faint dot screen over a vertical gradient. */
+@utility desktop-bg {
+  background-color: #2b2b63;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px),
+    linear-gradient(180deg, #3a3a86 0%, #2b2b63 55%, #1e1e4a 100%);
+  background-size:
+    16px 16px,
+    100% 100%;
+}
+
+@keyframes retro-scroll {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@utility marquee-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: retro-scroll 26s linear infinite;
+}
+
+/* Unlayered, so this beats the utility above regardless of specificity. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
 }

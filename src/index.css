@@ -1,1 +1,33 @@
 @import 'tailwindcss';
+
+/*
+ * Neubrutalist tokens. Tailwind v4 is CSS-first, so the palette and the hard
+ * offset shadows live here rather than in a config file.
+ *
+ * The shadows are offset toward the *end* (left in RTL) and down, mirroring how
+ * a light source would fall for right-to-left reading. Each state moves the
+ * element toward its own shadow, which is what sells the "pressed" feel.
+ */
+@theme {
+  --color-ink: #0a0a0a;
+  --color-paper: #fff4d6;
+  --color-sun: #ffd93d;
+  --color-sky: #4d96ff;
+  --color-coral: #ff6b6b;
+  --color-mint: #6bcb77;
+  --color-blush: #ff7bac;
+
+  --shadow-brut-sm: -3px 3px 0 0 #0a0a0a;
+  --shadow-brut: -5px 5px 0 0 #0a0a0a;
+  --shadow-brut-lg: -8px 8px 0 0 #0a0a0a;
+
+  --font-display:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Geeza Pro', 'Noto Kufi Arabic',
+    Tahoma, sans-serif;
+}
+
+/* The dot grid that sits behind everything. */
+.brut-grid {
+  background-image: radial-gradient(#0a0a0a 2px, transparent 2px);
+  background-size: 22px 22px;
+}

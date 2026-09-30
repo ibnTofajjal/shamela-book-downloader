@@ -65,7 +65,7 @@ function toInt(value: string): number | null {
 }
 
 function App() {
-  const [bookId, setBookId] = useState("30089");
+  const [bookId, setBookId] = useState("");
   const [startPage, setStartPage] = useState("1");
   const [endPage, setEndPage] = useState("");
   const [format, setFormat] = useState<(typeof FORMATS)[number]["id"]>("doc");
@@ -240,6 +240,7 @@ function App() {
                   value={bookId}
                   onChange={setBookId}
                   disabled={busy}
+                  placeholder="3001"
                 />
                 <div className="flex flex-col justify-end">
                   {bookTitle ? (
@@ -249,13 +250,13 @@ function App() {
                         title={bookTitle}
                       >
                         {bookTitle}
-                </div>
-                {format === "pdf" && (
-                  <p className="text-[10px] text-[#303030]">
-                    سيفتح نافذة الطباعة — اختر «حفظ كـ PDF» لحفظ الملف.
-                  </p>
-                )}
-              </div>
+                      </div>
+                      {format === "pdf" && (
+                        <p className="text-[10px] text-[#303030]">
+                          سيفتح نافذة الطباعة — اختر «حفظ كـ PDF» لحفظ الملف.
+                        </p>
+                      )}
+                    </div>
                   ) : (
                     <div className="bevel-in flex items-center gap-1.5 bg-white px-2 py-1.5">
                       <span className="font-digits text-[10px] text-[#808080]">
